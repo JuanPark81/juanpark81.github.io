@@ -1,0 +1,270 @@
+{
+  "site": {
+    "name": "JUNG HWAN PARK",
+    "intro": "JUNG HWAN PARK is a designer and artist who turns ideas into clear, lasting images.",
+    "portrait": {
+      "src": "",
+      "ratio": "4 / 5"
+    },
+    "bio": "Hi, I’m Jung Hwan Park, but I go by Juan.\nI’m an art director, storyboard artist, and concept artist based in South Korea.\nI’ve spent over 15 years working across film, television, animation, and game cinematics.\n\nOne of my favorite parts of the job is reading a script for the first time.\nWhat does this world look like?\nWhat’s everyday life like for the characters who live there?\nThose questions are usually where I start sketching.\n\nI enjoy staying with a project from those first sketches through the final shot.\nI can help plan a project, explore ideas through concept art, and work out how a scene will play through storyboards. As production moves along, I’m just as comfortable directing a sequence, helping the team keep things on track, or guiding the final look in post.\n\nI also teach 2D animation to university students and share what I’ve learned along the way.\n\nIf you have a project in mind or just want to say \"hello\",\nI’d love to hear from you :)",
+    "contact": {
+      "text": "If you have a project in mind or just want to say \"hello\", I’d love to hear from you :)",
+      "links": [
+        {
+          "label": "Email",
+          "value": "hello@example.com",
+          "href": "mailto:hello@example.com"
+        },
+        {
+          "label": "Instagram",
+          "value": "Instagram",
+          "href": "https://www.instagram.com/"
+        }
+      ]
+    },
+    "sections": [
+      {
+        "title": "Services",
+        "items": [
+          "Service One",
+          "Service Two",
+          "Service Three",
+          "Service Four"
+        ]
+      },
+      {
+        "title": "Clients",
+        "items": [
+          "Client A",
+          "Client B",
+          "Client C",
+          "Client D",
+          "Client E"
+        ]
+      },
+      {
+        "title": "Education",
+        "items": [
+          "Degree, School, Year"
+        ]
+      },
+      {
+        "title": "Recognition",
+        "items": [
+          "Award, Year",
+          "Award, Year"
+        ]
+      }
+    ],
+    "footer": {
+      "left": "©2026 JUNG HWAN PARK",
+      "right": "Seoul"
+    },
+    "slideSeconds": 6
+  },
+  "categories": [
+    "Storyboard",
+    "Concept Art"
+  ],
+  "projects": [
+    {
+      "slug": "project-01",
+      "title": "Project One",
+      "subtitle": "Brand Identity",
+      "tags": [
+        "Storyboard"
+      ],
+      "year": "2026",
+      "client": "Client A",
+      "role": "Design, Art Direction",
+      "description": "프로젝트 설명을 적어주세요. 어떤 문제를 받았고, 어떻게 풀었는지 두세 문단 정도면 충분합니다.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "4 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 3"
+        }
+      ]
+    },
+    {
+      "slug": "project-02",
+      "title": "Project Two",
+      "subtitle": "Poster Series",
+      "tags": [
+        "Concept Art"
+      ],
+      "year": "2026",
+      "client": "Client B",
+      "role": "Illustration",
+      "description": "프로젝트 설명을 적어주세요.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "3 / 4"
+        },
+        {
+          "src": "",
+          "ratio": "3 / 4"
+        },
+        {
+          "src": "",
+          "ratio": "3 / 4"
+        }
+      ]
+    },
+    {
+      "slug": "project-03",
+      "title": "Project Three",
+      "subtitle": "Live Visuals",
+      "tags": [
+        "Storyboard"
+      ],
+      "year": "2025",
+      "client": "Client C",
+      "role": "Motion Design",
+      "description": "프로젝트 설명을 적어주세요.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "16 / 9",
+          "full": true
+        },
+        {
+          "src": "",
+          "ratio": "16 / 9"
+        },
+        {
+          "src": "",
+          "ratio": "16 / 9"
+        }
+      ]
+    },
+    {
+      "slug": "project-04",
+      "title": "Project Four",
+      "subtitle": "Editorial Design",
+      "tags": [
+        "Concept Art"
+      ],
+      "year": "2025",
+      "client": "Client D",
+      "role": "Book Design",
+      "description": "프로젝트 설명을 적어주세요.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        }
+      ]
+    },
+    {
+      "slug": "project-05",
+      "title": "Project Five",
+      "subtitle": "Website",
+      "tags": [
+        "Storyboard"
+      ],
+      "year": "2025",
+      "client": "Client E",
+      "role": "Web Design",
+      "description": "프로젝트 설명을 적어주세요.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "1 / 1"
+        },
+        {
+          "src": "",
+          "ratio": "1 / 1"
+        },
+        {
+          "src": "",
+          "ratio": "1 / 1"
+        }
+      ]
+    },
+    {
+      "slug": "project-06",
+      "title": "Project Six",
+      "subtitle": "Character Studies",
+      "tags": [
+        "Concept Art"
+      ],
+      "year": "2024",
+      "client": "Personal",
+      "role": "Illustration",
+      "description": "프로젝트 설명을 적어주세요.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "2 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "2 / 3"
+        },
+        {
+          "src": "",
+          "ratio": "2 / 3"
+        }
+      ]
+    },
+    {
+      "slug": "project-07",
+      "title": "Project Seven",
+      "subtitle": "Campaign",
+      "tags": [
+        "Storyboard"
+      ],
+      "year": "2024",
+      "client": "Client F",
+      "role": "Art Direction",
+      "description": "프로젝트 설명을 적어주세요.",
+      "images": [
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        },
+        {
+          "src": "",
+          "ratio": "4 / 5"
+        }
+      ]
+    }
+  ]
+}
