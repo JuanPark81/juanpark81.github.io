@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>사이트 편집</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--ink:#292929;--sub:#777;--line:#e3e3e0;--bg:#f5f5f3;--gray:#d6d6d6;--red:#c62828;--green:#2e7d32}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Pretendard Variable",Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+.btn{display:inline-block;border:1px solid var(--ink);background:#fff;border-radius:6px;padding:7px 14px;cursor:pointer;white-space:nowrap;text-decoration:none}
+.btn:hover{background:#efefed}
+.btn.primary{background:var(--ink);color:#fff}
+.btn.primary:hover{background:#000}
+.btn.small{padding:3px 10px;font-size:12px}
+.btn.ghost{border-color:var(--line)}
+.btn.danger{color:var(--red);border-color:#ecc9c9}
+.btn:disabled{opacity:.35;cursor:default}
+header{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:12px 20px;background:rgba(245,245,243,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header h1{font-size:15px;margin:0;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#status{font-size:13px;color:var(--sub)}
+#status.err{color:var(--red)}
+#status.ok{color:var(--green)}
+nav.tabs{display:flex;gap:4px;align-items:center;padding:16px 20px 0;max-width:980px;margin:0 auto;flex-wrap:wrap}
+nav.tabs button{border:0;background:none;padding:8px 14px;border-radius:6px;cursor:pointer;color:var(--sub)}
+nav.tabs button.on{background:var(--ink);color:#fff}
+main{max-width:980px;margin:0 auto;padding:16px 20px 120px}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.card h2{font-size:16px;margin:0 0 4px}
+.hint{color:var(--sub);font-size:12.5px;margin:0 0 14px}
+label.f{display:block;margin-bottom:14px}
+label.f > span{display:block;font-size:12.5px;color:var(--sub);margin-bottom:4px}
+input[type=text],input[type=number],input[type=password],select,textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:8px 10px;background:#fff}
+textarea{resize:vertical;min-height:60px;line-height:1.55}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--ink);outline-offset:-1px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:0 14px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+.sub_label{display:block;font-size:12.5px;color:var(--sub);margin:4px 0 8px}
+details.proj{background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:10px}
+details.proj > summary{display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;list-style:none}
+details.proj > summary::-webkit-details-marker{display:none}
+details.proj[open] > summary{border-bottom:1px solid var(--line)}
+.sum_thumb{width:64px;height:48px;border-radius:4px;background:var(--gray);flex:none;overflow:hidden}
+.sum_thumb img,.sum_thumb video{width:100%;height:100%;object-fit:cover;display:block}
+.sum_text{flex:1;min-width:0}
+.sum_title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sum_meta{font-size:12px;color:var(--sub)}
+.badge{font-size:11.5px;padding:2px 9px;border-radius:99px;background:#eee;white-space:nowrap}
+.proj_body{padding:18px 14px 14px}
+.imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:10px}
+.tile{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.tile .pic{aspect-ratio:4/3;background:var(--gray);display:flex;align-items:center;justify-content:center;color:#888;font-size:12px;overflow:hidden;position:relative}
+.tile .pic img,.tile .pic video{width:100%;height:100%;object-fit:cover;display:block}
+.tile .no{position:absolute;top:6px;left:6px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;border-radius:4px;padding:1px 6px}
+.tile.full .no::after{content:" · 크게"}
+.tile .tools{display:flex;flex-wrap:wrap;gap:4px;padding:6px}
+.tile .tools .btn{flex:1 1 auto;padding:3px 6px;font-size:12px;text-align:center}
+.drop{border:1.5px dashed #bbb;border-radius:8px;padding:18px;text-align:center;color:var(--sub);cursor:pointer;background:#fcfcfb}
+.drop.over{border-color:var(--ink);background:#f3f3f0;color:var(--ink)}
+.portrait_box{display:flex;gap:16px;align-items:flex-start}
+.portrait_box .pic{width:140px;aspect-ratio:4/5;background:var(--gray);border-radius:6px;flex:none;overflow:hidden}
+.portrait_box .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.list_item{border:1px solid var(--line);border-radius:8px;padding:12px 12px 0;margin-bottom:10px}
+.list_item .row{margin-bottom:10px}
+.login{max-width:600px;margin:60px auto;padding:0 20px}
+.login ol{padding-left:20px;margin:0 0 18px}
+.login li{margin-bottom:7px}
+code{background:#eee;border-radius:4px;padding:1px 5px;font-size:12.5px}
+.empty{color:var(--sub);text-align:center;padding:30px 0}
+@media (max-width:640px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  header{flex-wrap:wrap}
+  header h1{flex-basis:100%}
+}
+</style>
+</head>
+<body>
+<div id="root"><p class="empty">불러오는 중…</p></div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   사이트 편집 페이지
+   - content.json 을 불러와 고치고, GitHub 저장소에 바로 저장합니다.
+   - 저장할 때마다 커밋 1개가 만들어지고, 1~2분 뒤 사이트에 반영됩니다.
+   ════════════════════════════════════════════════════════ */
+const OWNER = "JuanPark81";
+const REPO = "juanpark81.github.io";
+const BRANCH = "main";
+const API = "https://api.github.com/repos/" + OWNER + "/" + REPO;
+const RAW = "https://raw.githubusercontent.com/" + OWNER + "/" + REPO + "/" + BRANCH + "/";
+const SITE_URL = "https://juanpark81.github.io/";
+const TOKEN_KEY = "site_editor_token";
+const MAX_SIDE = 2400;      // 올리는 이미지의 긴 변 최대 크기(px). 더 크면 줄여서 올립니다.
+const MAX_VIDEO_MB = 50;
+const ACCEPT = "image/*,video/mp4,video/webm,video/quicktime";
+
+const $root = document.getElementById("root");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const slugify = s => String(s || "").toLowerCase().replace(/[^a-z0-9가-힣]+/g, "-").replace(/(^-|-$)/g, "");
+const isVideo = s => /\.(mp4|webm|mov)$/i.test(s || "");
+
+let token = "";
+try { token = localStorage.getItem(TOKEN_KEY) || ""; } catch (e) {}
+let data = null;
+let dirty = false;
+let busy = 0;
+let tab = "projects";
+const pending = {};      // 새로 올린 파일 경로 → GitHub blob sha (저장 전)
+const previews = {};     // 새로 올린 파일 경로 → 미리보기 주소
+const openProj = new Set();
+
+/* ─── GitHub API ─── */
+async function gh(path, opts = {}) {
+  const headers = { "Accept": "application/vnd.github+json", "Authorization": "Bearer " + token, "X-GitHub-Api-Version": "2022-11-28" };
+  if (opts.body) headers["Content-Type"] = "application/json";
+  let r;
+  try { r = await fetch(API + path, { ...opts, headers, cache: "no-store" }); }
+  catch (e) { const err = new Error("network"); err.status = 0; throw err; }
+  if (!r.ok) {
+    let msg = "";
+    try { msg = (await r.json()).message || ""; } catch (e) {}
+    const err = new Error(msg || ("HTTP " + r.status)); err.status = r.status; throw err;
+  }
+  return r.status === 204 ? null : r.json();
+}
+function explain(e) {
+  if (e.status === 0) return "인터넷 연결을 확인해 주세요.";
+  if (e.status === 401) return "토큰이 올바르지 않거나 만료되었어요. '연결 해제' 후 새 토큰으로 다시 연결해 주세요.";
+  if (e.status === 403 || e.status === 404) return "저장소에 접근할 권한이 없어요. 토큰에서 저장소(juanpark81.github.io)를 선택했는지, Contents 권한이 'Read and write'인지 확인해 주세요.";
+  if (e.status === 409 || e.status === 422) return "다른 곳에서 동시에 수정된 것 같아요. 잠시 뒤 다시 저장해 주세요. (" + e.message + ")";
+  return e.message;
+}
+const b64encodeText = s => {
+  const bytes = new TextEncoder().encode(s); let bin = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(bin);
+};
+const b64decodeText = b => new TextDecoder().decode(Uint8Array.from(atob(b.replace(/\s/g, "")), c => c.charCodeAt(0)));
+const blobToB64 = blob => new Promise((res, rej) => {
+  const fr = new FileReader();
+  fr.onload = () => res(String(fr.result).split(",")[1] || "");
+  fr.onerror = () => rej(new Error("파일을 읽지 못했어요"));
+  fr.readAsDataURL(blob);
+});
+
+/* ─── 상태 표시 ─── */
+function setStatus(msg, kind = "") {
+  const el = document.getElementById("status");
+  if (el) { el.textContent = msg; el.className = kind; }
+}
+function updateSaveBtn() {
+  const b = document.getElementById("saveBtn");
+  if (b) b.disabled = !dirty || busy > 0;
+}
+function markDirty() {
+  dirty = true; updateSaveBtn();
+  if (!busy) setStatus("저장하지 않은 변경 사항이 있어요");
+}
+window.addEventListener("beforeunload", e => { if (dirty || busy) { e.preventDefault(); e.returnValue = ""; } });
+
+/* ─── 연결 화면 ─── */
+function showLogin(errMsg = "") {
+  $root.innerHTML = `
+  <div class="login">
+    <div class="card">
+      <h2>사이트 편집 연결하기</h2>
+      <p class="hint">처음 한 번만 하면 됩니다. 이 브라우저에 기억되어 다음부터는 바로 열립니다.</p>
+      <ol>
+        <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener"><b>GitHub 토큰 만들기 페이지</b></a>를 엽니다.</li>
+        <li><b>Token name</b>에 아무 이름(예: <code>site editor</code>)을 적고, <b>Expiration</b>에서 사용할 기간을 고릅니다.</li>
+        <li><b>Repository access</b>에서 <code>Only select repositories</code>를 고르고 <code>juanpark81.github.io</code>를 선택합니다.</li>
+        <li><b>Permissions</b>에서 <b>Contents</b>를 추가하고 <code>Read and write</code>로 바꿉니다.</li>
+        <li><b>Generate token</b>을 누른 뒤, 나온 토큰(<code>github_pat_…</code>)을 복사해 아래에 붙여넣습니다.</li>
+      </ol>
+      <label class="f"><span>토큰</span><input type="password" id="tok" placeholder="github_pat_..." autocomplete="off"></label>
+      <div class="row"><button class="btn primary" id="connect">연결하기</button><span id="status" class="${errMsg ? "err" : ""}">${esc(errMsg)}</span></div>
+    </div>
+  </div>`;
+  const inp = document.getElementById("tok"), btn = document.getElementById("connect");
+  const go = async () => {
+    const v = inp.value.trim();
+    if (!v) { setStatus("토큰을 붙여넣어 주세요.", "err"); return; }
+    token = v; btn.disabled = true; setStatus("연결하는 중…");
+    try {
+      await loadContent();
+      try { localStorage.setItem(TOKEN_KEY, token); } catch (e) {}
+    } catch (e) {
+      token = ""; showLogin(explain(e));
+    }
+  };
+  btn.addEventListener("click", go);
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+  inp.focus();
+}
+
+/* ─── 불러오기 ─── */
+async function loadContent() {
+  const f = await gh("/contents/content.json?ref=" + BRANCH);
+  data = JSON.parse(b64decodeText(f.content));
+  normalize();
+  dirty = false;
+  showEditor();
+}
+function normalize() {
+  data.site = data.site || {};
+  const s = data.site;
+  s.portrait = s.portrait || { src: "", ratio: "4 / 5" };
+  s.contact = s.contact || { text: "", links: [] };
+  s.contact.links = s.contact.links || [];
+  s.sections = (s.sections || []).filter(x => !x.links);
+  s.sections.forEach(x => { x.items = x.items || []; });
+  s.footer = s.footer || { left: "", right: "" };
+  data.categories = data.categories && data.categories.length ? data.categories : ["Storyboard", "Concept Art"];
+  data.projects = data.projects || [];
+  data.projects.forEach(p => { p.images = p.images || []; p.tags = p.tags && p.tags.length ? p.tags : [data.categories[0]]; });
+}
+
+/* ─── 화면 그리기 ─── */
+const TABS = [["projects", "프로젝트"], ["about", "About"], ["contact", "Contact"], ["basic", "기본 정보"]];
+function showEditor() {
+  $root.innerHTML = `
+  <header>
+    <h1>${esc(data.site.name || "Site")} · 사이트 편집</h1>
+    <span id="status"></span>
+    <a class="btn ghost" href="${SITE_URL}" target="_blank" rel="noopener">사이트 보기</a>
+    <button class="btn primary" id="saveBtn" data-act="save" disabled>저장하기</button>
+  </header>
+  <nav class="tabs">
+    ${TABS.map(([k, l]) => `<button data-tab="${k}" class="${tab === k ? "on" : ""}">${l}</button>`).join("")}
+    <span class="spacer"></span>
+    <button data-act="logout" style="font-size:12px">연결 해제</button>
+  </nav>
+  <main id="main"></main>`;
+  renderTab();
+  updateSaveBtn();
+}
+function renderTab() {
+  document.querySelectorAll("nav.tabs [data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
+  const html = tab === "projects" ? projectsHTML() : tab === "about" ? aboutHTML() : tab === "contact" ? contactHTML() : basicHTML();
+  document.getElementById("main").innerHTML = html;
+}
+
+function getPath(p) { return p.split(".").reduce((o, k) => (o == null ? o : o[k]), data); }
+function setPath(p, v) { const ks = p.split("."), last = ks.pop(); ks.reduce((o, k) => o[k], data)[last] = v; }
+const srcOf = s => previews[s] || s;
+function mediaTag(src) {
+  if (!src) return "";
+  if (isVideo(src)) return `<video src="${esc(srcOf(src))}" muted playsinline preload="metadata"></video>`;
+  return `<img src="${esc(srcOf(src))}" alt="" loading="lazy" data-raw="${esc(RAW + src)}" onerror="if(this.dataset.raw&&this.src!==this.dataset.raw)this.src=this.dataset.raw">`;
+}
+const fText = (label, path, ph = "") => `
+  <label class="f">${label ? `<span>${label}</span>` : ""}<input type="text" data-path="${path}" value="${esc(getPath(path))}" placeholder="${esc(ph)}"></label>`;
+const fArea = (label, path, rows = 4, kind = "") => {
+  const v = getPath(path);
+  return `<label class="f">${label ? `<span>${label}</span>` : ""}<textarea rows="${rows}" data-path="${path}" ${kind ? `data-kind="${kind}"` : ""}>${esc(kind === "lines" ? (v || []).join("\n") : v)}</textarea></label>`;
+};
+const moveBtns = (act, idx, len) => `
+  <button class="btn small ghost" data-act="${act}" data-d="-1" data-n="${idx}" ${idx === 0 ? "disabled" : ""} title="위로">↑</button>
+  <button class="btn small ghost" data-act="${act}" data-d="1" data-n="${idx}" ${idx === len - 1 ? "disabled" : ""} title="아래로">↓</button>`;
+
+/* 프로젝트 */
+function projectsHTML() {
+  const ps = data.projects;
+  return `
+  <div class="card">
+    <div class="row">
+      <div style="flex:1;min-width:240px"><h2>프로젝트 (${ps.length})</h2>
+        <p class="hint" style="margin:0">홈 화면에는 이 순서대로 나옵니다. 홈에는 1~3번 이미지가, Storyboard / Concept Art 페이지에는 1번 이미지가 썸네일로 보입니다.</p></div>
+      <button class="btn primary" data-act="addProj">+ 새 프로젝트</button>
+    </div>
+  </div>
+  ${ps.length ? ps.map(projHTML).join("") : `<p class="empty">아직 프로젝트가 없습니다. '+ 새 프로젝트'를 눌러 추가하세요.</p>`}`;
+}
+function projHTML(p, i) {
+  const cat = p.tags[0] || "";
+  const first = p.images.find(a => a.src);
+  const count = p.images.filter(a => a.src).length;
+  return `
+  <details class="proj" data-i="${i}" ${openProj.has(p) ? "open" : ""}>
+    <summary>
+      <div class="sum_thumb">${first ? mediaTag(first.src) : ""}</div>
+      <div class="sum_text"><div class="sum_title" data-sum="${i}">${esc(p.title || "(제목 없음)")}</div>
+        <div class="sum_meta">${esc(p.year || "")}${p.year ? " · " : ""}이미지 ${count}개</div></div>
+      <span class="badge">${esc(cat)}</span>
+      ${moveBtns("moveProj", i, data.projects.length)}
+    </summary>
+    <div class="proj_body">
+      <div class="grid2">${fText("제목", `projects.${i}.title`)}${fText("부제목", `projects.${i}.subtitle`)}</div>
+      <div class="grid3">
+        <label class="f"><span>메뉴 (분류)</span><select data-path="projects.${i}.tags" data-kind="tag">
+          ${data.categories.map(c => `<option ${c === cat ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></label>
+        ${fText("연도", `projects.${i}.year`)}${fText("클라이언트", `projects.${i}.client`)}
+      </div>
+      ${fText("역할", `projects.${i}.role`)}
+      ${fArea("설명", `projects.${i}.description`, 5)}
+      <span class="sub_label">이미지 · 영상 — 화살표로 순서를 바꿀 수 있어요. '크게'를 켜면 상세 페이지에서 가로 전체로 보입니다.</span>
+      <div class="imgs">${p.images.map((a, k) => tileHTML(i, k, a, p.images.length)).join("")}</div>
+      <div class="drop" data-drop="${i}">여기에 이미지·영상 파일을 끌어다 놓거나 <u>클릭해서 선택</u>하세요 (여러 개 가능)</div>
+      <div class="row" style="margin-top:16px"><span class="spacer"></span><button class="btn small danger" data-act="delProj" data-i="${i}">이 프로젝트 삭제</button></div>
+    </div>
+  </details>`;
+}
+function tileHTML(i, k, a, n) {
+  const at = `data-i="${i}" data-k="${k}"`;
+  return `
+  <div class="tile ${a.full ? "full" : ""}">
+    <div class="pic">${a.src ? mediaTag(a.src) : "빈 칸"}<span class="no">${k + 1}</span></div>
+    <div class="tools">
+      <button class="btn ghost" data-act="imgMove" data-d="-1" ${at} ${k === 0 ? "disabled" : ""} title="앞으로">←</button>
+      <button class="btn ghost" data-act="imgMove" data-d="1" ${at} ${k === n - 1 ? "disabled" : ""} title="뒤로">→</button>
+      <button class="btn ghost" data-act="imgReplace" ${at}>바꾸기</button>
+      <button class="btn ghost" data-act="imgFull" ${at}>${a.full ? "크게 ✓" : "크게"}</button>
+      <button class="btn ghost danger" data-act="imgDel" ${at}>삭제</button>
+    </div>
+  </div>`;
+}
+
+/* About */
+function aboutHTML() {
+  const s = data.site, has = s.portrait && s.portrait.src;
+  return `
+  <div class="card"><h2>맨 위 큰 문장</h2><p class="hint">About 페이지 맨 위에 크게 보이는 문장입니다.</p>${fArea("", "site.intro", 2)}</div>
+  <div class="card"><h2>프로필 사진</h2>
+    <div class="portrait_box">
+      <div class="pic">${has ? mediaTag(s.portrait.src) : ""}</div>
+      <div><p class="hint">세로 사진(4:5 비율)이 가장 잘 어울립니다.</p>
+        <div class="row"><button class="btn" data-act="portraitSet">${has ? "사진 바꾸기" : "사진 올리기"}</button>
+        ${has ? `<button class="btn danger" data-act="portraitDel">삭제</button>` : ""}</div></div>
+    </div>
+  </div>
+  <div class="card"><h2>소개글</h2><p class="hint">줄바꿈과 빈 줄이 사이트에 그대로 보입니다.</p>${fArea("", "site.bio", 16)}</div>
+  <div class="card">
+    <div class="row"><div style="flex:1"><h2>목록</h2><p class="hint" style="margin:0">Services, Clients, Education 같은 목록입니다. 항목은 한 줄에 하나씩 적어주세요.</p></div>
+      <button class="btn small" data-act="addSec">+ 목록 추가</button></div>
+    <div style="margin-top:14px">${s.sections.map((sec, j) => `
+      <div class="list_item">
+        <div class="row"><div style="flex:1">${fText("제목", `site.sections.${j}.title`).replace('class="f"', 'class="f" style="margin:0"')}</div>
+          ${moveBtns("moveSec", j, s.sections.length)}<button class="btn small danger" data-act="delSec" data-n="${j}">삭제</button></div>
+        ${fArea("항목 (한 줄에 하나)", `site.sections.${j}.items`, 4, "lines")}
+      </div>`).join("")}</div>
+  </div>`;
+}
+
+/* Contact */
+function contactHTML() {
+  const c = data.site.contact;
+  return `
+  <div class="card"><h2>문장</h2><p class="hint">Contact 페이지 맨 위에 크게 보이는 문장입니다.</p>${fArea("", "site.contact.text", 3)}</div>
+  <div class="card">
+    <div class="row"><div style="flex:1;min-width:240px"><h2>연락처</h2>
+      <p class="hint" style="margin:0">'주소'에는 이메일 주소나 웹사이트 주소를 적으면 됩니다. (예: <code>juan@gmail.com</code>, <code>https://instagram.com/아이디</code>)</p></div>
+      <button class="btn small" data-act="addLink">+ 연락처 추가</button></div>
+    <div style="margin-top:14px">${c.links.map((l, j) => `
+      <div class="list_item">
+        <div class="grid3">${fText("이름", `site.contact.links.${j}.label`, "Email")}${fText("보이는 글자", `site.contact.links.${j}.value`, "juan@gmail.com")}${fText("주소", `site.contact.links.${j}.href`, "juan@gmail.com")}</div>
+        <div class="row"><span class="spacer"></span>${moveBtns("moveLink", j, c.links.length)}<button class="btn small danger" data-act="delLink" data-n="${j}">삭제</button></div>
+      </div>`).join("")}</div>
+  </div>`;
+}
+
+/* 기본 정보 */
+function basicHTML() {
+  return `
+  <div class="card"><h2>기본 정보</h2><p class="hint">&nbsp;</p>
+    ${fText("사이트 이름", "site.name")}
+    <div class="grid2">${fText("맨 아래 왼쪽 글자", "site.footer.left")}${fText("맨 아래 오른쪽 글자", "site.footer.right")}</div>
+    <label class="f"><span>홈 화면에서 다음 프로젝트로 넘어가는 시간 (초)</span>
+      <input type="number" min="2" max="60" data-path="site.slideSeconds" data-kind="number" value="${esc(data.site.slideSeconds || 6)}"></label>
+  </div>`;
+}
+
+/* ─── 파일 올리기 ─── */
+function pickFiles(multiple, accept, cb) {
+  const inp = document.createElement("input");
+  inp.type = "file"; inp.multiple = multiple; inp.accept = accept;
+  inp.addEventListener("change", () => { if (inp.files.length) cb([...inp.files]); });
+  inp.click();
+}
+function fileBase(name) {
+  const b = name.replace(/\.[^.]+$/, "").normalize("NFKD").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "").slice(0, 40);
+  return b || "image";
+}
+function loadImg(file) {
+  return new Promise((res, rej) => {
+    const u = URL.createObjectURL(file), im = new Image();
+    im.onload = () => res({ im, u });
+    im.onerror = () => { URL.revokeObjectURL(u); rej(new Error("이 이미지 형식은 열 수 없어요. JPG나 PNG로 저장해서 다시 올려주세요")); };
+    im.src = u;
+  });
+}
+async function shrinkImage(file) {
+  const { im, u } = await loadImg(file);
+  const w0 = im.naturalWidth, h0 = im.naturalHeight;
+  const scale = Math.min(1, MAX_SIDE / Math.max(w0, h0));
+  const isGif = /gif/.test(file.type);
+  if (isGif || (scale === 1 && /jpe?g|webp/.test(file.type) && file.size < 1.5 * 1048576)) {
+    URL.revokeObjectURL(u);
+    return { blob: file, ext: isGif ? "gif" : /webp/.test(file.type) ? "webp" : "jpg", w: w0, h: h0 };
+  }
+  const w = Math.round(w0 * scale), h = Math.round(h0 * scale);
+  const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+  const ctx = cv.getContext("2d");
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, w, h);
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(im, 0, 0, w, h);
+  URL.revokeObjectURL(u);
+  const blob = await new Promise(r => cv.toBlob(r, "image/jpeg", 0.88));
+  if (!blob) throw new Error("이미지를 변환하지 못했어요");
+  return { blob, ext: "jpg", w, h };
+}
+function videoSize(file) {
+  return new Promise(res => {
+    const v = document.createElement("video"), u = URL.createObjectURL(file);
+    v.preload = "metadata"; v.muted = true;
+    v.onloadedmetadata = () => { res({ w: v.videoWidth, h: v.videoHeight }); URL.revokeObjectURL(u); };
+    v.onerror = () => { res({ w: 0, h: 0 }); URL.revokeObjectURL(u); };
+    v.src = u;
+  });
+}
+async function uploadFile(file) {
+  const video = /^video\//.test(file.type) || /\.(mp4|webm|mov)$/i.test(file.name);
+  const image = /^image\//.test(file.type) || /\.(jpe?g|png|gif|webp)$/i.test(file.name);
+  if (!video && !image) throw new Error("이미지나 동영상 파일만 올릴 수 있어요");
+  let blob = file, ext, w, h;
+  if (video) {
+    if (file.size > MAX_VIDEO_MB * 1048576) throw new Error(`동영상은 ${MAX_VIDEO_MB}MB 이하만 올릴 수 있어요`);
+    ext = (file.name.match(/\.(mp4|webm|mov)$/i) || [0, "mp4"])[1].toLowerCase();
+    ({ w, h } = await videoSize(file));
+  } else {
+    ({ blob, ext, w, h } = await shrinkImage(file));
+  }
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  const path = `images/${fileBase(file.name)}-${id}.${ext}`;
+  const res = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: await blobToB64(blob), encoding: "base64" }) });
+  pending[path] = res.sha;
+  previews[path] = URL.createObjectURL(blob);
+  return { src: path, ratio: w && h ? `${w} / ${h}` : "" };
+}
+async function addFiles(files, apply) {
+  busy += files.length; updateSaveBtn();
+  let failed = 0;
+  for (const f of files) {
+    setStatus(`파일 올리는 중… (${busy}개 남음)`);
+    try { apply(await uploadFile(f)); dirty = true; renderTab(); }
+    catch (e) { failed++; alert(f.name + "\n" + (e.status !== undefined ? explain(e) : e.message)); }
+    finally { busy--; updateSaveBtn(); }
+  }
+  if (dirty) setStatus(failed ? "일부 파일을 올리지 못했어요. 나머지는 '저장하기'를 눌러 반영하세요." : "다 올렸어요. '저장하기'를 눌러야 사이트에 반영됩니다.", failed ? "err" : "");
+}
+
+/* ─── 저장 ─── */
+function tidy() {
+  const taken = new Set();
+  data.projects.forEach((p, i) => {
+    let s = p.slug || slugify(p.title) || "project";
+    if (taken.has(s)) { let n = 2; while (taken.has(s + "-" + n)) n++; s = s + "-" + n; }
+    p.slug = s; taken.add(s);
+  });
+  data.site.contact.links.forEach(l => {
+    const h = String(l.href || "").trim();
+    if (!h || /^[a-z][a-z0-9+.-]*:/i.test(h)) l.href = h;
+    else if (/^[^@\s/]+@[^@\s]+\.[^@\s]+$/.test(h)) l.href = "mailto:" + h;
+    else l.href = "https://" + h.replace(/^\/+/, "");
+  });
+}
+async function save() {
+  if (busy || !dirty) return;
+  const btn = document.getElementById("saveBtn"); btn.disabled = true;
+  setStatus("저장하는 중…");
+  try {
+    tidy();
+    const json = JSON.stringify(data, null, 2) + "\n";
+    const files = Object.keys(pending).filter(p => json.includes('"' + p + '"'));
+    const ref = await gh("/git/ref/heads/" + BRANCH);
+    const head = ref.object.sha;
+    const commit = await gh("/git/commits/" + head);
+    const cblob = await gh("/git/blobs", { method: "POST", body: JSON.stringify({ content: b64encodeText(json), encoding: "base64" }) });
+    const tree = await gh("/git/trees", { method: "POST", body: JSON.stringify({
+      base_tree: commit.tree.sha,
+      tree: [{ path: "content.json", mode: "100644", type: "blob", sha: cblob.sha },
+             ...files.map(p => ({ path: p, mode: "100644", type: "blob", sha: pending[p] }))]
+    }) });
+    const nc = await gh("/git/commits", { method: "POST", body: JSON.stringify({ message: "Update site content", tree: tree.sha, parents: [head] }) });
+    await gh("/git/refs/heads/" + BRANCH, { method: "PATCH", body: JSON.stringify({ sha: nc.sha }) });
+    files.forEach(p => delete pending[p]);
+    dirty = false;
+    if (tab === "contact") renderTab();
+    updateSaveBtn();
+    setStatus("저장했어요. 1~2분 뒤 사이트에 반영됩니다.", "ok");
+  } catch (e) {
+    setStatus("저장하지 못했어요: " + explain(e), "err");
+    btn.disabled = false;
+  }
+}
+
+/* ─── 버튼 · 입력 처리 ─── */
+const move = (arr, i, d) => { const j = i + d; if (j < 0 || j >= arr.length) return; [arr[i], arr[j]] = [arr[j], arr[i]]; };
+$root.addEventListener("click", e => {
+  const t = e.target.closest("[data-act],[data-tab],[data-drop]");
+  if (!t || t.disabled) return;
+  if (t.closest("summary")) e.preventDefault();
+  if (t.dataset.tab) { tab = t.dataset.tab; renderTab(); return; }
+  if (t.dataset.drop !== undefined && !t.dataset.act) {
+    const p = data.projects[+t.dataset.drop];
+    pickFiles(true, ACCEPT, files => addFiles(files, item => p.images.push(item)));
+    return;
+  }
+  const act = t.dataset.act, d = +t.dataset.d || 0, n = +t.dataset.n;
+  const p = t.dataset.i !== undefined ? data.projects[+t.dataset.i] : null;
+  const k = +t.dataset.k;
+  const s = data && data.site;
+  switch (act) {
+    case "save": save(); return;
+    case "logout":
+      if (dirty && !confirm("저장하지 않은 변경 사항이 사라집니다. 연결을 해제할까요?")) return;
+      try { localStorage.removeItem(TOKEN_KEY); } catch (err) {}
+      token = ""; dirty = false; showLogin(); return;
+    case "addProj": {
+      const np = { slug: "", title: "New Project", subtitle: "", tags: [data.categories[0]], year: String(new Date().getFullYear()), client: "", role: "", description: "", images: [] };
+      data.projects.unshift(np); openProj.add(np); break;
+    }
+    case "moveProj": move(data.projects, n, d); break;
+    case "delProj":
+      if (!confirm(`'${p.title || "(제목 없음)"}' 프로젝트를 삭제할까요?\n'저장하기'를 눌러야 사이트에 반영됩니다.`)) return;
+      data.projects.splice(+t.dataset.i, 1); break;
+    case "imgMove": move(p.images, k, d); break;
+    case "imgFull": p.images[k].full = !p.images[k].full; if (!p.images[k].full) delete p.images[k].full; break;
+    case "imgDel":
+      if (p.images[k].src && !confirm("이 이미지를 삭제할까요?")) return;
+      p.images.splice(k, 1); break;
+    case "imgReplace": {
+      const a = p.images[k];
+      pickFiles(false, ACCEPT, files => addFiles(files, item => { a.src = item.src; a.ratio = item.ratio; }));
+      return;
+    }
+    case "portraitSet":
+      pickFiles(false, "image/*", files => addFiles(files, item => { s.portrait = { src: item.src, ratio: "4 / 5" }; }));
+      return;
+    case "portraitDel": s.portrait.src = ""; break;
+    case "addSec": s.sections.push({ title: "New List", items: [] }); break;
+    case "moveSec": move(s.sections, n, d); break;
+    case "delSec": if (!confirm("이 목록을 삭제할까요?")) return; s.sections.splice(n, 1); break;
+    case "addLink": s.contact.links.push({ label: "", value: "", href: "" }); break;
+    case "moveLink": move(s.contact.links, n, d); break;
+    case "delLink": s.contact.links.splice(n, 1); break;
+    default: return;
+  }
+  markDirty(); renderTab();
+});
+function onField(e) {
+  const el = e.target, path = el.dataset && el.dataset.path;
+  if (!path || !data) return;
+  const kind = el.dataset.kind;
+  let v = el.value;
+  if (kind === "lines") v = v.split("\n").map(x => x.trim()).filter(Boolean);
+  else if (kind === "number") v = Math.max(2, Number(v) || 6);
+  else if (kind === "tag") v = [v];
+  setPath(path, v);
+  markDirty();
+  const m = path.match(/^projects\.(\d+)\.(title|tags|year)$/);
+  if (m) {
+    const box = el.closest("details");
+    if (m[2] === "title") box.querySelector(".sum_title").textContent = v || "(제목 없음)";
+    if (m[2] === "tags") box.querySelector(".badge").textContent = v[0];
+  }
+}
+$root.addEventListener("input", onField);
+$root.addEventListener("change", onField);
+$root.addEventListener("toggle", e => {
+  const d = e.target;
+  if (d.matches && d.matches("details.proj") && data) {
+    const p = data.projects[+d.dataset.i];
+    if (d.open) openProj.add(p); else openProj.delete(p);
+  }
+}, true);
+$root.addEventListener("dragover", e => {
+  const z = e.target.closest("[data-drop]");
+  if (z) { e.preventDefault(); z.classList.add("over"); }
+});
+$root.addEventListener("dragleave", e => { const z = e.target.closest("[data-drop]"); if (z) z.classList.remove("over"); });
+$root.addEventListener("drop", e => {
+  const z = e.target.closest("[data-drop]");
+  if (!z) return;
+  e.preventDefault(); z.classList.remove("over");
+  const p = data.projects[+z.dataset.drop];
+  const files = [...e.dataTransfer.files];
+  if (files.length) addFiles(files, item => p.images.push(item));
+});
+window.addEventListener("dragover", e => e.preventDefault());
+window.addEventListener("drop", e => e.preventDefault());
+
+/* ─── 시작 ─── */
+(async () => {
+  if (!token) { showLogin(); return; }
+  try { await loadContent(); } catch (e) { showLogin(explain(e)); }
+})();
+</script>
+</body>
+</html>
