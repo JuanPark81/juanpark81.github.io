@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Junan Park</title>
+<meta name="description" content="Junan Park — Portfolio">
+<meta property="og:title" content="Junan Park">
+<meta property="og:description" content="Junan Park — Portfolio">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://junanpark.github.io/">
+<!-- 공유 썸네일: images/share.jpg (2400×1260) 파일을 넣으면 SNS 미리보기에 사용됩니다 -->
+<meta property="og:image" content="https://junanpark.github.io/images/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+
+<style>
+/* ─────────────────────────────────────────────
+   기본 설정 (샘플 사이트 값 그대로)
+   글자 12px / 행간 120% / 자간 -0.015em
+   검정 #292929 / 회색 #d6d6d6 / 간격 12px
+   ───────────────────────────────────────────── */
+:root{
+  --black:#292929;
+  --light_gray:#d6d6d6;
+  --easing_1:cubic-bezier(.3,0,.2,.9);
+  --easing_2:cubic-bezier(.45,.22,0,.95);
+  --sans:"Inter Tight","Pretendard Variable",Pretendard,system-ui,sans-serif;
+  --serif:"Newsreader","Pretendard Variable",Georgia,serif;
+  --nav_h:38.5px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body,div,span,h1,h2,h3,h4,h5,h6,p,a,img,video,figure,header,main,footer,section,article,button{
+  margin:0;padding:0;border:0;font:inherit;vertical-align:baseline
+}
+html,body{background:#fff}
+body,button,a{
+  color:var(--black);
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:12px;
+  line-height:120%;
+  letter-spacing:-0.015em;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  font-kerning:normal;
+}
+button,a{
+  background:none;border:0;padding:0;cursor:pointer;text-align:left;
+  text-decoration:none;width:fit-content;user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.serif{
+  font-family:var(--serif);
+  font-weight:400;
+  text-transform:uppercase;
+  letter-spacing:0.025em;
+}
+::selection{background:var(--black);color:var(--light_gray)}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--light_gray)}
+::-webkit-scrollbar-thumb{background:var(--black)}
+
+@keyframes fade_in{from{opacity:0}to{opacity:1}}
+.fade_in{opacity:0;animation:fade_in .25s var(--easing_1) .35s forwards}
+
+/* 이미지 자리 (이미지가 없거나 불러오는 중이면 회색 박스) */
+.media{position:relative;width:100%;background:var(--light_gray);overflow:hidden}
+.media img,.media video{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s var(--easing_1)}
+.media.loaded{background:transparent}
+.media.loaded img,.media.loaded video{opacity:1}
+.media.natural img,.media.natural video{height:auto;object-fit:contain}
+
+/* 페이지 전환 시 흰 화면으로 부드럽게 */
+.cross_fade{position:fixed;inset:0;z-index:997;background:#fff;opacity:0;pointer-events:none;transition:opacity .35s var(--easing_1)}
+.cross_fade.on{opacity:1}
+
+/* ─── 하단 고정 내비게이션 ─── */
+.nav{
+  position:fixed;left:0;bottom:0;z-index:1000;width:100%;
+  display:flex;gap:12px;padding:0 12px;
+}
+.nav > a,.filters > button{
+  position:relative;width:100%;
+  border-top:.5px solid var(--black);
+  padding:12px 0;
+}
+.nav > a > p,.filters > button > p{line-height:110%;transition:transform .35s var(--easing_2)}
+.line{
+  position:absolute;top:0;left:0;width:100%;
+  border-top:1.25px solid var(--black);
+  opacity:0;transition:all .25s var(--easing_1);
+}
+.active > .line{opacity:1}
+@media (hover:hover){
+  .nav > a:hover > .line,.filters > button:hover > .line{opacity:1}
+  .nav > a:hover > p,.filters > button:hover > p:first-of-type{transform:translateX(6px)}
+}
+
+/* 내비 뒤쪽 블러 그라데이션 */
+.nav_blur{
+  --blur-shift:-15%;
+  position:fixed;left:0;bottom:0;z-index:996;width:100%;
+  height:var(--nav_h);pointer-events:none;
+  transition:height .25s var(--easing_1);
+}
+.nav_blur.tall{height:77px}
+.nav_blur > div,.nav_blur::before,.nav_blur::after{position:absolute;inset:0}
+.nav_blur::before{content:"";z-index:1;backdrop-filter:blur(.2px);-webkit-backdrop-filter:blur(.2px);
+  mask:linear-gradient(to bottom,#fff0 calc(0% + var(--blur-shift)),#fff calc(12.5% + var(--blur-shift)),#fff calc(25% + var(--blur-shift)),#fff0 calc(37.5% + var(--blur-shift)))}
+.nav_blur > div:nth-of-type(1){z-index:2;backdrop-filter:blur(.5px);-webkit-backdrop-filter:blur(.5px);
+  mask:linear-gradient(to bottom,#fff0 calc(12.5% + var(--blur-shift)),#fff calc(25% + var(--blur-shift)),#fff calc(37.5% + var(--blur-shift)),#fff0 calc(50% + var(--blur-shift)))}
+.nav_blur > div:nth-of-type(2){z-index:3;backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+  mask:linear-gradient(to bottom,#fff0 calc(25% + var(--blur-shift)),#fff calc(37.5% + var(--blur-shift)),#fff calc(50% + var(--blur-shift)),#fff0 calc(62.5% + var(--blur-shift)))}
+.nav_blur > div:nth-of-type(3){z-index:4;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+  mask:linear-gradient(to bottom,#fff0 calc(37.5% + var(--blur-shift)),#fff calc(50% + var(--blur-shift)),#fff calc(62.5% + var(--blur-shift)),#fff0 calc(75% + var(--blur-shift)))}
+.nav_blur > div:nth-of-type(4){z-index:5;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  mask:linear-gradient(to bottom,#fff0 calc(50% + var(--blur-shift)),#fff calc(62.5% + var(--blur-shift)),#fff calc(75% + var(--blur-shift)),#fff0 calc(87.5% + var(--blur-shift)))}
+.nav_blur > div:nth-of-type(5){z-index:6;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);
+  mask:linear-gradient(to bottom,#fff0 calc(62.5% + var(--blur-shift)),#fff calc(75% + var(--blur-shift)),#fff calc(87.5% + var(--blur-shift)),#fff0 calc(100% + var(--blur-shift)))}
+.nav_blur > div:nth-of-type(6){z-index:7;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  mask:linear-gradient(to bottom,#fff0 calc(75% + var(--blur-shift)),#fff calc(87.5% + var(--blur-shift)),#fff 100%)}
+.nav_blur::after{content:"";z-index:8;background:linear-gradient(rgba(255,255,255,0),#fff)}
+
+/* ─── 필터 (내비 바로 위) ─── */
+.filters{
+  position:fixed;left:0;bottom:var(--nav_h);z-index:998;width:100%;
+  display:flex;gap:12px;padding:0 12px;
+}
+.filters[hidden]{display:none}
+.filters > button{display:flex;justify-content:space-between;gap:6px}
+.filters > button > p:nth-of-type(2){font-size:10px;text-align:right}
+
+/* ─── HOME: 자동으로 넘어가는 프로젝트 슬라이드 ─── */
+.projects{position:relative;width:100%;height:100svh;overflow:hidden}
+.proj{
+  position:absolute;top:12px;
+  transition:left .85s var(--easing_2),width .85s var(--easing_2);
+}
+.proj.no_anim{transition:none}
+.proj_head{position:relative;padding-bottom:12px;border-bottom:.5px solid var(--black);cursor:pointer}
+.proj_head > h1,.proj_head > p{
+  opacity:.5;transition:opacity .5s var(--easing_1);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;
+}
+.proj.active .proj_head > h1,.proj.active .proj_head > p{opacity:1}
+@media (hover:hover){ .proj:not(.active) .proj_head:hover > h1,.proj:not(.active) .proj_head:hover > p{opacity:1} }
+.timer{position:absolute;left:0;bottom:-.625px;height:1.25px;width:0;background:var(--black)}
+
+.assets{position:relative;padding-top:12px;opacity:0;pointer-events:none;transition:opacity .35s var(--easing_1)}
+.proj.active .assets{opacity:1;pointer-events:auto}
+.stack{display:flex;gap:12px;width:100%;align-items:flex-start;transition:opacity .35s var(--easing_1)}
+.stack.secondary{position:absolute;top:12px;left:0;opacity:0;pointer-events:none}
+.stack > .media{opacity:0;transition:opacity .35s var(--easing_1)}
+.proj.active .stack.primary > .media{opacity:1}
+.proj.active .stack.primary > .media:nth-child(1){transition-delay:.55s}
+.proj.active .stack.primary > .media:nth-child(2){transition-delay:.6s}
+.proj.active .stack.primary > .media:nth-child(3){transition-delay:.65s}
+.assets.show2 .stack.primary{opacity:0}
+.assets.show2 .stack.secondary{opacity:1}
+.assets.show2 .stack.secondary > .media{opacity:1}
+.stack.secondary > .media:nth-child(1){transition-delay:.05s}
+.stack.secondary > .media:nth-child(2){transition-delay:.1s}
+.stack.secondary > .media:nth-child(3){transition-delay:.15s}
+
+/* ─── LIST ─── */
+.list{display:flex;flex-direction:column;gap:24px;padding:12px 12px 120px}
+.row{display:flex;gap:4px}
+.row > p,.row > a{position:relative;z-index:2;transition:opacity .25s var(--easing_1),transform .35s var(--easing_2)}
+.row > p{width:24px;flex:none;line-height:100%;transform:translateY(8px)}
+.row > a{font-size:clamp(36px,6vw,128px);line-height:90%;letter-spacing:-0.03em}
+.list.hovering .row:not(.on) > *{opacity:.15}
+.preview{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:calc(33.33% - 36px);z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  opacity:0;pointer-events:none;transition:opacity .25s var(--easing_1);
+}
+.preview.on{opacity:1}
+.preview .media{max-height:calc(100vh - 256px)}
+.preview > p{text-align:center}
+
+/* ─── INFO ─── */
+.info{display:flex;flex-direction:column;gap:256px;padding:12px 12px 256px}
+.intro{font-size:clamp(36px,4vw,96px);line-height:100%;letter-spacing:-0.03em;white-space:pre-wrap;max-width:1600px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%}
+.portrait{position:sticky;top:12px;height:fit-content}
+.info_text{grid-column-start:3;display:flex;flex-direction:column;gap:48px}
+.info_text > .bio{white-space:pre-wrap;padding-bottom:48px}
+.sec{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.sec > div{display:flex;flex-direction:column;grid-column:span 2}
+.pp_meta .sec .sec{grid-template-columns:repeat(4,1fr)}
+.pp_meta .sec .sec > h5{grid-column:span 1}
+.link{transition:opacity .25s var(--easing_1)}
+@media (hover:hover){.link:hover{opacity:.5}}
+.foot{display:flex;justify-content:space-between;gap:12px;padding-top:48px}
+
+/* ─── PROJECT 상세 ─── */
+.pp{display:flex;flex-direction:column;gap:12px;padding:12px 12px 160px}
+.pp_title{font-size:clamp(36px,4vw,96px);line-height:100%;letter-spacing:-0.03em}
+.pp_meta{padding:12px 0 96px;align-items:start}
+.pp_meta .sec{grid-column:1 / 3}
+.pp_meta .desc{grid-column:3 / 5;white-space:pre-wrap}
+.pp_gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pp_gallery > .media.full{grid-column:1 / 3}
+.pp_next{margin-top:96px;border-top:.5px solid var(--black);padding-top:12px;display:flex;justify-content:space-between}
+.pp_next a{font-size:clamp(36px,6vw,128px);line-height:90%;letter-spacing:-0.03em}
+
+/* ─── 반응형 ─── */
+@media (max-width:1250px){
+  .intro{line-height:110%}
+  .info_text{grid-column-end:5}
+  .sec{grid-template-columns:repeat(4,1fr)}
+  .sec > h5{grid-column:span 2}
+  .row > p{transform:translateY(6px)}
+  .preview{width:calc(50% - 18px)}
+}
+@media (max-width:768px){
+  .filters{flex-wrap:wrap;row-gap:0}
+  .filters > *{flex:0 0 calc(25% - 9px)}
+  .nav_blur.tall{height:113.6px}
+  .list{padding-bottom:150px}
+  .row{flex-direction:row-reverse;justify-content:space-between;border-bottom:.5px solid var(--black);padding-bottom:24px}
+  .row > p{width:fit-content;text-align:right;transform:translateY(2px)}
+  .preview{width:calc(75% - 20px)}
+  .info{gap:12px;padding-bottom:80px}
+  .grid4{display:flex;flex-direction:column}
+  .portrait{position:relative;top:0}
+  .info_text{gap:32px}
+  .info_text > .bio{font-size:18px;line-height:120%;padding-bottom:96px}
+  .pp_meta{padding-bottom:48px}
+  .pp_gallery{grid-template-columns:1fr}
+  .pp_gallery > .media.full{grid-column:auto}
+}
+@media (max-width:500px){
+  .filters{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filters > *{flex:0 0 calc(50% - 6px)}
+  .nav_blur.tall{height:77px}
+  /* 모바일: 슬라이드 대신 세로로 쌓고, 이미지는 옆으로 넘기기 */
+  .projects{height:auto;overflow:visible;display:flex;flex-direction:column;gap:64px;padding:12px 0 140px}
+  .proj{position:static;left:auto !important;width:100% !important;display:flex;flex-direction:column-reverse}
+  .proj_head{border:0;padding:6px 12px 0}
+  .proj_head > h1,.proj_head > p{opacity:1}
+  .timer{display:none}
+  .assets{opacity:1;pointer-events:auto;padding:0 12px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 12px;scrollbar-width:none}
+  .assets::-webkit-scrollbar{display:none}
+  .stack,.stack.secondary{display:contents}
+  .stack > .media{opacity:1 !important;flex:0 0 calc(100% - 12px);scroll-snap-align:start}
+  .list{padding-bottom:100px}
+  .list .row:last-child{border-bottom:0}
+  .list.hovering .row:not(.on) > *{opacity:1}
+  .preview{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition-duration:0s !important;animation-duration:0s !important;animation-delay:0s !important}
+}
+</style>
+</head>
+<body>
+
+<div class="cross_fade" id="xfade"></div>
+<div class="nav_blur" id="navBlur"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+<nav class="nav" id="nav">
+  <a href="#/" data-route="home"><div class="line"></div><p>Home</p></a>
+  <a href="#/list" data-route="list"><div class="line"></div><p>List</p></a>
+  <a href="#/info" data-route="info"><div class="line"></div><p>Info</p></a>
+</nav>
+<div class="filters" id="filters" hidden></div>
+
+<main id="app"></main>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   ✏️ 여기부터 내용만 바꾸면 됩니다
+   ────────────────────────────────────────────────────────
+   - 이미지는 저장소에 images 폴더를 만들고 넣은 뒤
+     src: "images/파일이름.jpg" 처럼 적어주세요.
+   - src를 비워두면 회색 박스로 표시됩니다.
+   - ratio는 가로/세로 비율입니다 (예: "4 / 5", "16 / 9").
+   - 동영상은 .mp4 파일을 그대로 src에 넣으면 자동 재생됩니다.
+   - full: true 를 넣으면 프로젝트 상세 페이지에서 가로 전체를 씁니다.
+   ════════════════════════════════════════════════════════ */
+
+const SITE = {
+  name: "Junan Park",
+  // Info 페이지 맨 위 큰 문장
+  intro: "Junan Park is a designer and artist who turns ideas into clear, lasting images.",
+  portrait: { src: "", ratio: "4 / 5" },          // 예: "images/portrait.jpg"
+  bio:
+`첫 번째 문단: 어떤 작업을 하는 사람인지, 작업 방식은 무엇인지 적어주세요.
+
+두 번째 문단: 학력과 경력을 간단하게 적어주세요.
+
+세 번째 문단: 지금 하고 있는 일, 함께한 회사나 팀을 적어주세요.`,
+  sections: [
+    { title: "Contact", links: [
+      { label: "Email",     href: "mailto:hello@example.com" },
+      { label: "Instagram", href: "https://www.instagram.com/" },
+    ]},
+    { title: "Services", items: ["Service One", "Service Two", "Service Three", "Service Four"] },
+    { title: "Clients",  items: ["Client A", "Client B", "Client C", "Client D", "Client E"] },
+    { title: "Education", items: ["Degree, School, Year"] },
+    { title: "Recognition", items: ["Award, Year", "Award, Year"] },
+  ],
+  footer: { left: "©2026 Junan Park", right: "Seoul" },
+  slideSeconds: 6,   // 홈 화면에서 다음 프로젝트로 넘어가는 시간(초)
+};
+
+// 필터에 표시될 분류 (프로젝트의 tags 와 같은 글자로 맞춰주세요)
+const CATEGORIES = ["Visual Identity", "Illustration", "Motion", "Print", "Digital"];
+
+const PROJECTS = [
+  {
+    slug: "project-01",
+    title: "Project One", subtitle: "Brand Identity",
+    tags: ["Visual Identity", "Print"],
+    year: "2026", client: "Client A", role: "Design, Art Direction",
+    description: "프로젝트 설명을 적어주세요. 어떤 문제를 받았고, 어떻게 풀었는지 두세 문단 정도면 충분합니다.",
+    images: [
+      { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" },
+      { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" },
+    ],
+  },
+  {
+    slug: "project-02",
+    title: "Project Two", subtitle: "Poster Series",
+    tags: ["Print", "Illustration"],
+    year: "2026", client: "Client B", role: "Illustration",
+    description: "프로젝트 설명을 적어주세요.",
+    images: [ { src: "", ratio: "3 / 4" }, { src: "", ratio: "3 / 4" }, { src: "", ratio: "3 / 4" } ],
+  },
+  {
+    slug: "project-03",
+    title: "Project Three", subtitle: "Live Visuals",
+    tags: ["Motion", "Digital"],
+    year: "2025", client: "Client C", role: "Motion Design",
+    description: "프로젝트 설명을 적어주세요.",
+    images: [ { src: "", ratio: "16 / 9", full: true }, { src: "", ratio: "16 / 9" }, { src: "", ratio: "16 / 9" } ],
+  },
+  {
+    slug: "project-04",
+    title: "Project Four", subtitle: "Editorial Design",
+    tags: ["Print", "Visual Identity"],
+    year: "2025", client: "Client D", role: "Book Design",
+    description: "프로젝트 설명을 적어주세요.",
+    images: [ { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" } ],
+  },
+  {
+    slug: "project-05",
+    title: "Project Five", subtitle: "Website",
+    tags: ["Digital"],
+    year: "2025", client: "Client E", role: "Web Design",
+    description: "프로젝트 설명을 적어주세요.",
+    images: [ { src: "", ratio: "1 / 1" }, { src: "", ratio: "1 / 1" }, { src: "", ratio: "1 / 1" } ],
+  },
+  {
+    slug: "project-06",
+    title: "Project Six", subtitle: "Character Studies",
+    tags: ["Illustration"],
+    year: "2024", client: "Personal", role: "Illustration",
+    description: "프로젝트 설명을 적어주세요.",
+    images: [ { src: "", ratio: "2 / 3" }, { src: "", ratio: "2 / 3" }, { src: "", ratio: "2 / 3" } ],
+  },
+  {
+    slug: "project-07",
+    title: "Project Seven", subtitle: "Campaign",
+    tags: ["Visual Identity", "Digital", "Motion"],
+    year: "2024", client: "Client F", role: "Art Direction",
+    description: "프로젝트 설명을 적어주세요.",
+    images: [ { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" } ],
+  },
+];
+
+/* ════════════════════════════════════════════════════════
+   아래는 동작 코드입니다 (수정하지 않아도 됩니다)
+   ════════════════════════════════════════════════════════ */
+
+const $app = document.getElementById("app");
+const $filters = document.getElementById("filters");
+const $nav = document.getElementById("nav");
+const $blur = document.getElementById("navBlur");
+const $xfade = document.getElementById("xfade");
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const slugify = s => s.toLowerCase().replace(/[^a-z0-9가-힣]+/g, "-").replace(/(^-|-$)/g, "");
+
+let filter = "all";
+let route = { name: "home" };
+
+/* 이미지/영상 한 칸 */
+function media(a = {}, extra = "") {
+  const ratio = a.ratio ? `aspect-ratio:${a.ratio};` : "";
+  const cls = `media ${a.ratio ? "" : "natural"} ${a.full ? "full" : ""} ${extra}`;
+  if (!a.src) return `<div class="${cls}" style="${ratio || "aspect-ratio:4 / 5;"}"></div>`;
+  const isVideo = /\.(mp4|webm|mov)$/i.test(a.src);
+  const inner = isVideo
+    ? `<video src="${esc(a.src)}" autoplay muted loop playsinline preload="metadata"></video>`
+    : `<img src="${esc(a.src)}" alt="${esc(a.alt || "")}" loading="lazy" decoding="async">`;
+  return `<div class="${cls}" style="${ratio}">${inner}</div>`;
+}
+function hookMedia(root) {
+  root.querySelectorAll(".media img, .media video").forEach(el => {
+    const done = () => el.parentElement.classList.add("loaded");
+    if (el.tagName === "IMG") { if (el.complete && el.naturalWidth) done(); else el.addEventListener("load", done, { once: true }); }
+    else { if (el.readyState >= 2) done(); else el.addEventListener("loadeddata", done, { once: true }); }
+  });
+}
+
+const visibleProjects = () => filter === "all" ? PROJECTS : PROJECTS.filter(p => p.tags.includes(filter));
+
+/* 필터 줄 */
+function renderFilters() {
+  const show = route.name === "home" || route.name === "list";
+  $filters.hidden = !show;
+  $blur.classList.toggle("tall", show);
+  if (!show) return;
+  const items = [["all", "All", PROJECTS.length],
+    ...CATEGORIES.map(c => [c, c, PROJECTS.filter(p => p.tags.includes(c)).length])];
+  $filters.innerHTML = items.map(([key, label, n]) => `
+    <button type="button" data-filter="${esc(key)}" class="${filter === key ? "active" : ""}" aria-pressed="${filter === key}">
+      <div class="line"></div><p>${esc(label)}</p><p class="serif">[${n}]</p>
+    </button>`).join("");
+}
+$filters.addEventListener("click", e => {
+  const b = e.target.closest("button[data-filter]");
+  if (!b || b.dataset.filter === filter) return;
+  filter = b.dataset.filter;
+  renderFilters();
+  route.name === "home" ? renderHome() : renderList();
+});
+
+/* ─── HOME ─── */
+let home = { active: 0, progress: 0, paused: false, raf: 0, last: 0, offsets: [] };
+
+function renderHome() {
+  const list = visibleProjects();
+  home.active = 0; home.progress = 0; home.offsets = [];
+  $app.innerHTML = `<div class="projects fade_in" id="projects">${list.map((p, i) => {
+    const primary = p.images.slice(0, 3), secondary = p.images.slice(3, 6);
+    return `
+    <div class="proj" data-i="${i}">
+      <div class="proj_head">
+        <h1 class="serif">${esc(p.title)}${p.subtitle ? ", " + esc(p.subtitle) : ""}</h1>
+        <p>${esc(p.tags.join(", "))}</p>
+        <div class="timer"></div>
+      </div>
+      <div class="assets">
+        <a class="stack primary" href="#/project/${esc(p.slug)}" aria-label="${esc(p.title)}">${primary.map(a => media(a)).join("")}</a>
+        ${secondary.length ? `<a class="stack secondary" href="#/project/${esc(p.slug)}" tabindex="-1" aria-hidden="true">${secondary.map(a => media(a)).join("")}</a>` : ""}
+      </div>
+    </div>`;
+  }).join("")}</div>`;
+  hookMedia($app);
+  layoutHome(true);
+
+  const wrap = document.getElementById("projects");
+  wrap.addEventListener("click", e => {
+    const proj = e.target.closest(".proj");
+    if (proj && !proj.classList.contains("active")) { e.preventDefault(); setActive(+proj.dataset.i); }
+  });
+  wrap.querySelectorAll(".assets").forEach(as => {
+    const hasSecond = !!as.querySelector(".secondary");
+    as.addEventListener("mouseenter", () => { home.paused = true; if (hasSecond) as.classList.add("show2"); });
+    as.addEventListener("mouseleave", () => { home.paused = false; as.classList.remove("show2"); });
+  });
+  startTimer();
+}
+
+/* 4칸 그리드: 현재 프로젝트 3칸, 다음 프로젝트 1칸씩 오른쪽, 지난 프로젝트는 왼쪽으로 빠짐 */
+function layoutHome(initial = false) {
+  const els = [...document.querySelectorAll(".proj")];
+  const n = els.length; if (!n) return;
+  const col = "((100% - 60px) / 4)";
+  els.forEach((el, j) => {
+    let off = ((j - home.active) % n + n) % n;   // 0 … n-1
+    if (off === n - 1 && n > 2) off = -1;           // 바로 전 프로젝트는 왼쪽
+    const prev = home.offsets[j];
+    const jump = !initial && prev !== undefined && Math.abs(off - prev) > 1;
+    el.classList.toggle("no_anim", initial || jump);
+    let left, width;
+    if (off === 0) { left = "12px"; width = `calc(3 * ${col} + 24px)`; }
+    else if (off > 0) { left = `calc(12px + ${off + 2} * (${col} + 12px))`; width = `calc(${col})`; }
+    else { left = `calc(12px + ${off} * (${col} + 12px))`; width = `calc(${col})`; }
+    el.style.left = left; el.style.width = width;
+    el.classList.toggle("active", off === 0);
+    home.offsets[j] = off;
+    if (jump || initial) { void el.offsetWidth; requestAnimationFrame(() => el.classList.remove("no_anim")); }
+  });
+}
+
+function setActive(i) {
+  const n = document.querySelectorAll(".proj").length; if (!n) return;
+  document.querySelectorAll(".timer").forEach(t => t.style.width = "0");
+  home.active = (i + n) % n; home.progress = 0;
+  layoutHome();
+}
+
+function startTimer() {
+  cancelAnimationFrame(home.raf);
+  home.last = performance.now();
+  const dur = (SITE.slideSeconds || 6) * 1000;
+  const tick = now => {
+    const dt = now - home.last; home.last = now;
+    const mobile = matchMedia("(max-width:500px)").matches;
+    if (!home.paused && !document.hidden && !mobile && route.name === "home") {
+      home.progress += dt / dur;
+      const t = document.querySelector(".proj.active .timer");
+      if (t) t.style.width = Math.min(home.progress, 1) * 100 + "%";
+      if (home.progress >= 1) setActive(home.active + 1);
+    }
+    if (route.name === "home") home.raf = requestAnimationFrame(tick);
+  };
+  home.raf = requestAnimationFrame(tick);
+}
+
+/* ─── LIST ─── */
+function renderList() {
+  const list = visibleProjects();
+  $app.innerHTML = `
+    <div class="list" id="list">
+      ${list.map((p, i) => `
+        <div class="row fade_in" style="animation-delay:${i * 75}ms" data-i="${i}">
+          <p class="serif">[${p.images.length}]</p>
+          <a href="#/project/${esc(p.slug)}">${esc(p.title)}</a>
+        </div>`).join("")}
+    </div>
+    <div class="preview" id="preview"></div>`;
+  const $list = document.getElementById("list"), $pv = document.getElementById("preview");
+  $list.querySelectorAll(".row").forEach(row => {
+    const p = list[+row.dataset.i];
+    row.addEventListener("mouseenter", () => {
+      $list.classList.add("hovering"); row.classList.add("on");
+      $pv.innerHTML = media(p.images[0]) + `<p>${esc(p.subtitle || "")}</p>`;
+      hookMedia($pv); $pv.classList.add("on");
+    });
+    row.addEventListener("mouseleave", () => {
+      $list.classList.remove("hovering"); row.classList.remove("on"); $pv.classList.remove("on");
+    });
+  });
+}
+
+/* ─── INFO ─── */
+function renderInfo() {
+  const sec = s => `
+    <div class="sec">
+      <h5 class="serif">${esc(s.title)}</h5>
+      <div>${s.links
+        ? s.links.map(l => `<a class="link" href="${esc(l.href)}" target="_blank" rel="noopener noreferrer">${esc(l.label)}</a>`).join("")
+        : s.items.map(t => `<p>${esc(t)}</p>`).join("")}</div>
+    </div>`;
+  $app.innerHTML = `
+    <div class="info fade_in">
+      <p class="intro">${esc(SITE.intro)}</p>
+      <div class="grid4">
+        <div class="portrait">${media(SITE.portrait)}</div>
+        <div class="info_text">
+          <p class="bio">${esc(SITE.bio)}</p>
+          ${SITE.sections.map(sec).join("")}
+          <div class="foot"><p>${esc(SITE.footer.left)}</p><p>${esc(SITE.footer.right)}</p></div>
+        </div>
+      </div>
+    </div>`;
+  hookMedia($app);
+}
+
+/* ─── PROJECT 상세 ─── */
+function renderProject(slug) {
+  const i = PROJECTS.findIndex(p => p.slug === slug);
+  if (i < 0) { location.hash = "#/"; return; }
+  const p = PROJECTS[i], next = PROJECTS[(i + 1) % PROJECTS.length];
+  const row = (label, val) => val ? `<div class="sec"><h5 class="serif">${label}</h5><div><p>${esc(val)}</p></div></div>` : "";
+  $app.innerHTML = `
+    <article class="pp fade_in">
+      <h1 class="pp_title">${esc(p.title)}</h1>
+      <p class="serif">${esc(p.subtitle || "")}</p>
+      <div class="grid4 pp_meta">
+        <div class="sec" style="display:flex;flex-direction:column;gap:12px">
+          ${row("Client", p.client)}${row("Role", p.role)}${row("Year", p.year)}${row("Tags", p.tags.join(", "))}
+        </div>
+        <p class="desc">${esc(p.description || "")}</p>
+      </div>
+      <div class="pp_gallery">${p.images.map((a, k) => media(a, k === 0 && p.images.length % 2 ? "full" : "")).join("")}</div>
+      <div class="pp_next"><p class="serif">Next</p><a class="link" href="#/project/${esc(next.slug)}">${esc(next.title)}</a></div>
+    </article>`;
+  hookMedia($app);
+}
+
+/* ─── 주소(#)에 따라 페이지 바꾸기 ─── */
+function parse() {
+  const h = location.hash.replace(/^#\/?/, "");
+  if (h.startsWith("project/")) return { name: "project", slug: decodeURIComponent(h.slice(8)) };
+  if (h === "list") return { name: "list" };
+  if (h === "info") return { name: "info" };
+  return { name: "home" };
+}
+function render() {
+  route = parse();
+  cancelAnimationFrame(home.raf);
+  $nav.querySelectorAll("a").forEach(a => a.classList.toggle("active", a.dataset.route === route.name));
+  renderFilters();
+  if (route.name === "home") renderHome();
+  else if (route.name === "list") renderList();
+  else if (route.name === "info") renderInfo();
+  else renderProject(route.slug);
+  window.scrollTo(0, 0);
+  document.title = route.name === "project"
+    ? `${(PROJECTS.find(p => p.slug === route.slug) || {}).title || ""} — ${SITE.name}` : SITE.name;
+}
+window.addEventListener("hashchange", () => {
+  $xfade.classList.add("on");
+  setTimeout(() => { render(); requestAnimationFrame(() => $xfade.classList.remove("on")); }, 350);
+});
+window.addEventListener("keydown", e => {
+  if (route.name !== "home") return;
+  if (e.key === "ArrowRight") setActive(home.active + 1);
+  if (e.key === "ArrowLeft") setActive(home.active - 1);
+});
+PROJECTS.forEach(p => { if (!p.slug) p.slug = slugify(p.title); });
+render();
+</script>
+</body>
+</html>
