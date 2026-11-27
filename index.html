@@ -210,6 +210,36 @@ button,a{
 .pp_gallery > .media.full{grid-column:1 / 3}
 .pp_next{margin-top:96px;border-top:.5px solid var(--black);padding-top:12px;display:flex;justify-content:space-between}
 .pp_next a{font-size:clamp(36px,6vw,128px);line-height:90%;letter-spacing:-0.03em}
+/* ─── STORYBOARD / CONCEPT ART ─── */
+.cat{display:flex;flex-direction:column;padding:12px 12px 120px}
+.cat_head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding-bottom:12px;margin-bottom:24px;border-bottom:.5px solid var(--black)}
+.cat_title{font-size:clamp(36px,6vw,128px);line-height:90%;letter-spacing:-0.03em}
+.cat_grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 12px}
+.card{display:flex;flex-direction:column;gap:6px;width:100%}
+.card .media{transition:opacity .25s var(--easing_1)}
+.card_meta{display:flex;justify-content:space-between;gap:12px}
+.card_sub{opacity:.5}
+.cat_empty{opacity:.5}
+@media (hover:hover){.card:hover .media{opacity:.8}}
+
+/* ─── CONTACT ─── */
+.contact{display:flex;flex-direction:column;gap:96px;padding:12px 12px 160px}
+.contact_text{font-size:clamp(36px,4vw,96px);line-height:100%;letter-spacing:-0.03em;max-width:1600px}
+.contact_list{display:flex;flex-direction:column;border-top:.5px solid var(--black)}
+.contact_list > a{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:100%;padding:12px 0;border-bottom:.5px solid var(--black);font-size:clamp(18px,2vw,32px);line-height:110%}
+.contact_list > a > span:first-child{font-size:12px}
+.contact_list > a > span:last-child{grid-column:3 / 5}
+.contact .foot{padding-top:0}
+@media (max-width:768px){
+  .cat_grid{grid-template-columns:repeat(2,1fr)}
+  .contact_list > a{grid-template-columns:1fr 2fr}
+  .contact_list > a > span:last-child{grid-column:auto}
+}
+@media (max-width:500px){
+  .cat_grid{grid-template-columns:1fr;gap:32px}
+  .contact{gap:64px;padding-bottom:100px}
+}
+
 
 /* ─── 반응형 ─── */
 @media (max-width:1250px){
@@ -269,8 +299,10 @@ button,a{
 
 <nav class="nav" id="nav">
   <a href="#/" data-route="home"><div class="line"></div><p>Home</p></a>
-  <a href="#/list" data-route="list"><div class="line"></div><p>List</p></a>
-  <a href="#/info" data-route="info"><div class="line"></div><p>Info</p></a>
+  <a href="#/storyboard" data-route="storyboard"><div class="line"></div><p>Storyboard</p></a>
+  <a href="#/concept-art" data-route="concept-art"><div class="line"></div><p>Concept Art</p></a>
+  <a href="#/about" data-route="about"><div class="line"></div><p>About</p></a>
+  <a href="#/contact" data-route="contact"><div class="line"></div><p>Contact</p></a>
 </nav>
 <div class="filters" id="filters" hidden></div>
 
@@ -290,7 +322,7 @@ button,a{
 
 const SITE = {
   name: "JUNG HWAN PARK",
-  // Info 페이지 맨 위 큰 문장
+  // About 페이지 맨 위 큰 문장
   intro: "JUNG HWAN PARK is a designer and artist who turns ideas into clear, lasting images.",
   portrait: { src: "", ratio: "4 / 5" },          // 예: "images/portrait.jpg"
   bio:
@@ -310,11 +342,16 @@ I also teach 2D animation to university students and share what I’ve learned a
 
 If you have a project in mind or just want to say "hello",
 I’d love to hear from you :)`,
+  // Contact 페이지
+  contact: {
+    text: 'If you have a project in mind or just want to say "hello", I’d love to hear from you :)',
+    links: [
+      { label: "Email",     value: "hello@example.com", href: "mailto:hello@example.com" },
+      { label: "Instagram", value: "Instagram",         href: "https://www.instagram.com/" },
+    ],
+  },
+  // About 페이지 아래쪽 목록
   sections: [
-    { title: "Contact", links: [
-      { label: "Email",     href: "mailto:hello@example.com" },
-      { label: "Instagram", href: "https://www.instagram.com/" },
-    ]},
     { title: "Services", items: ["Service One", "Service Two", "Service Three", "Service Four"] },
     { title: "Clients",  items: ["Client A", "Client B", "Client C", "Client D", "Client E"] },
     { title: "Education", items: ["Degree, School, Year"] },
@@ -324,14 +361,14 @@ I’d love to hear from you :)`,
   slideSeconds: 6,   // 홈 화면에서 다음 프로젝트로 넘어가는 시간(초)
 };
 
-// 필터에 표시될 분류 (프로젝트의 tags 와 같은 글자로 맞춰주세요)
-const CATEGORIES = ["Visual Identity", "Illustration", "Motion", "Print", "Digital"];
+// 메뉴 분류: 프로젝트의 tags 에 "Storyboard" 또는 "Concept Art" 를 넣으면 해당 페이지에 나옵니다
+const CATEGORIES = ["Storyboard", "Concept Art"];
 
 const PROJECTS = [
   {
     slug: "project-01",
     title: "Project One", subtitle: "Brand Identity",
-    tags: ["Visual Identity", "Print"],
+    tags: ["Storyboard"],
     year: "2026", client: "Client A", role: "Design, Art Direction",
     description: "프로젝트 설명을 적어주세요. 어떤 문제를 받았고, 어떻게 풀었는지 두세 문단 정도면 충분합니다.",
     images: [
@@ -342,7 +379,7 @@ const PROJECTS = [
   {
     slug: "project-02",
     title: "Project Two", subtitle: "Poster Series",
-    tags: ["Print", "Illustration"],
+    tags: ["Concept Art"],
     year: "2026", client: "Client B", role: "Illustration",
     description: "프로젝트 설명을 적어주세요.",
     images: [ { src: "", ratio: "3 / 4" }, { src: "", ratio: "3 / 4" }, { src: "", ratio: "3 / 4" } ],
@@ -350,7 +387,7 @@ const PROJECTS = [
   {
     slug: "project-03",
     title: "Project Three", subtitle: "Live Visuals",
-    tags: ["Motion", "Digital"],
+    tags: ["Storyboard"],
     year: "2025", client: "Client C", role: "Motion Design",
     description: "프로젝트 설명을 적어주세요.",
     images: [ { src: "", ratio: "16 / 9", full: true }, { src: "", ratio: "16 / 9" }, { src: "", ratio: "16 / 9" } ],
@@ -358,7 +395,7 @@ const PROJECTS = [
   {
     slug: "project-04",
     title: "Project Four", subtitle: "Editorial Design",
-    tags: ["Print", "Visual Identity"],
+    tags: ["Concept Art"],
     year: "2025", client: "Client D", role: "Book Design",
     description: "프로젝트 설명을 적어주세요.",
     images: [ { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" } ],
@@ -366,7 +403,7 @@ const PROJECTS = [
   {
     slug: "project-05",
     title: "Project Five", subtitle: "Website",
-    tags: ["Digital"],
+    tags: ["Storyboard"],
     year: "2025", client: "Client E", role: "Web Design",
     description: "프로젝트 설명을 적어주세요.",
     images: [ { src: "", ratio: "1 / 1" }, { src: "", ratio: "1 / 1" }, { src: "", ratio: "1 / 1" } ],
@@ -374,7 +411,7 @@ const PROJECTS = [
   {
     slug: "project-06",
     title: "Project Six", subtitle: "Character Studies",
-    tags: ["Illustration"],
+    tags: ["Concept Art"],
     year: "2024", client: "Personal", role: "Illustration",
     description: "프로젝트 설명을 적어주세요.",
     images: [ { src: "", ratio: "2 / 3" }, { src: "", ratio: "2 / 3" }, { src: "", ratio: "2 / 3" } ],
@@ -382,7 +419,7 @@ const PROJECTS = [
   {
     slug: "project-07",
     title: "Project Seven", subtitle: "Campaign",
-    tags: ["Visual Identity", "Digital", "Motion"],
+    tags: ["Storyboard"],
     year: "2024", client: "Client F", role: "Art Direction",
     description: "프로젝트 설명을 적어주세요.",
     images: [ { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" } ],
@@ -427,7 +464,7 @@ const visibleProjects = () => filter === "all" ? PROJECTS : PROJECTS.filter(p =>
 
 /* 필터 줄 */
 function renderFilters() {
-  const show = route.name === "home" || route.name === "list";
+  const show = false; // 필터 줄은 사용하지 않습니다
   $filters.hidden = !show;
   $blur.classList.toggle("tall", show);
   if (!show) return;
@@ -580,6 +617,38 @@ function renderInfo() {
   hookMedia($app);
 }
 
+/* ─── STORYBOARD / CONCEPT ART ─── */
+function renderCategory(cat) {
+  const list = PROJECTS.filter(p => p.tags.includes(cat));
+  const card = p => `
+    <a class="card" href="#/project/${esc(p.slug)}">
+      ${media({ src: (p.images[0] || {}).src, ratio: "4 / 3" })}
+      <div class="card_meta"><p>${esc(p.title)}</p><p class="serif">${esc(p.year || "")}</p></div>
+      <p class="card_sub">${esc(p.subtitle || "")}</p>
+    </a>`;
+  $app.innerHTML = `
+  <div class="cat fade_in">
+    <div class="cat_head"><h1 class="cat_title">${esc(cat)}</h1><p class="serif">[${list.length}]</p></div>
+    ${list.length ? `<div class="cat_grid">${list.map(card).join("")}</div>` : `<p class="cat_empty">Coming soon.</p>`}
+  </div>`;
+  hookMedia($app);
+}
+
+/* ─── CONTACT ─── */
+function renderContact() {
+  const c = SITE.contact || {};
+  const row = l => `
+    <a class="link" href="${esc(l.href)}"${/^https?:/.test(l.href) ? ' target="_blank" rel="noopener noreferrer"' : ""}>
+      <span class="serif">${esc(l.label)}</span><span>${esc(l.value || l.href)}</span>
+    </a>`;
+  $app.innerHTML = `
+  <div class="contact fade_in">
+    <p class="contact_text">${esc(c.text || "")}</p>
+    <div class="contact_list">${(c.links || []).map(row).join("")}</div>
+    <div class="foot"><p>${esc(SITE.footer.left)}</p><p>${esc(SITE.footer.right)}</p></div>
+  </div>`;
+}
+
 /* ─── PROJECT 상세 ─── */
 function renderProject(slug) {
   const i = PROJECTS.findIndex(p => p.slug === slug);
@@ -606,8 +675,10 @@ function renderProject(slug) {
 function parse() {
   const h = location.hash.replace(/^#\/?/, "");
   if (h.startsWith("project/")) return { name: "project", slug: decodeURIComponent(h.slice(8)) };
-  if (h === "list") return { name: "list" };
-  if (h === "info") return { name: "info" };
+  if (h === "storyboard") return { name: "storyboard" };
+  if (h === "concept-art") return { name: "concept-art" };
+  if (h === "about" || h === "info") return { name: "about" };
+  if (h === "contact") return { name: "contact" };
   return { name: "home" };
 }
 function render() {
@@ -616,8 +687,10 @@ function render() {
   $nav.querySelectorAll("a").forEach(a => a.classList.toggle("active", a.dataset.route === route.name));
   renderFilters();
   if (route.name === "home") renderHome();
-  else if (route.name === "list") renderList();
-  else if (route.name === "info") renderInfo();
+  else if (route.name === "storyboard") renderCategory("Storyboard");
+  else if (route.name === "concept-art") renderCategory("Concept Art");
+  else if (route.name === "about") renderInfo();
+  else if (route.name === "contact") renderContact();
   else renderProject(route.slug);
   window.scrollTo(0, 0);
   document.title = route.name === "project"
