@@ -310,121 +310,10 @@ button,a{
 
 <script>
 /* ════════════════════════════════════════════════════════
-   ✏️ 여기부터 내용만 바꾸면 됩니다
-   ────────────────────────────────────────────────────────
-   - 이미지는 저장소에 images 폴더를 만들고 넣은 뒤
-     src: "images/파일이름.jpg" 처럼 적어주세요.
-   - src를 비워두면 회색 박스로 표시됩니다.
-   - ratio는 가로/세로 비율입니다 (예: "4 / 5", "16 / 9").
-   - 동영상은 .mp4 파일을 그대로 src에 넣으면 자동 재생됩니다.
-   - full: true 를 넣으면 프로젝트 상세 페이지에서 가로 전체를 씁니다.
+   글과 이미지는 content.json 에 있습니다.
+   https://juanpark81.github.io/admin.html 에서 고칠 수 있어요.
    ════════════════════════════════════════════════════════ */
-
-const SITE = {
-  name: "JUNG HWAN PARK",
-  // About 페이지 맨 위 큰 문장
-  intro: "JUNG HWAN PARK is a designer and artist who turns ideas into clear, lasting images.",
-  portrait: { src: "", ratio: "4 / 5" },          // 예: "images/portrait.jpg"
-  bio:
-`Hi, I’m Jung Hwan Park, but I go by Juan.
-I’m an art director, storyboard artist, and concept artist based in South Korea.
-I’ve spent over 15 years working across film, television, animation, and game cinematics.
-
-One of my favorite parts of the job is reading a script for the first time.
-What does this world look like?
-What’s everyday life like for the characters who live there?
-Those questions are usually where I start sketching.
-
-I enjoy staying with a project from those first sketches through the final shot.
-I can help plan a project, explore ideas through concept art, and work out how a scene will play through storyboards. As production moves along, I’m just as comfortable directing a sequence, helping the team keep things on track, or guiding the final look in post.
-
-I also teach 2D animation to university students and share what I’ve learned along the way.
-
-If you have a project in mind or just want to say "hello",
-I’d love to hear from you :)`,
-  // Contact 페이지
-  contact: {
-    text: 'If you have a project in mind or just want to say "hello", I’d love to hear from you :)',
-    links: [
-      { label: "Email",     value: "hello@example.com", href: "mailto:hello@example.com" },
-      { label: "Instagram", value: "Instagram",         href: "https://www.instagram.com/" },
-    ],
-  },
-  // About 페이지 아래쪽 목록
-  sections: [
-    { title: "Services", items: ["Service One", "Service Two", "Service Three", "Service Four"] },
-    { title: "Clients",  items: ["Client A", "Client B", "Client C", "Client D", "Client E"] },
-    { title: "Education", items: ["Degree, School, Year"] },
-    { title: "Recognition", items: ["Award, Year", "Award, Year"] },
-  ],
-  footer: { left: "©2026 JUNG HWAN PARK", right: "Seoul" },
-  slideSeconds: 6,   // 홈 화면에서 다음 프로젝트로 넘어가는 시간(초)
-};
-
-// 메뉴 분류: 프로젝트의 tags 에 "Storyboard" 또는 "Concept Art" 를 넣으면 해당 페이지에 나옵니다
-const CATEGORIES = ["Storyboard", "Concept Art"];
-
-const PROJECTS = [
-  {
-    slug: "project-01",
-    title: "Project One", subtitle: "Brand Identity",
-    tags: ["Storyboard"],
-    year: "2026", client: "Client A", role: "Design, Art Direction",
-    description: "프로젝트 설명을 적어주세요. 어떤 문제를 받았고, 어떻게 풀었는지 두세 문단 정도면 충분합니다.",
-    images: [
-      { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" },
-      { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" }, { src: "", ratio: "4 / 3" },
-    ],
-  },
-  {
-    slug: "project-02",
-    title: "Project Two", subtitle: "Poster Series",
-    tags: ["Concept Art"],
-    year: "2026", client: "Client B", role: "Illustration",
-    description: "프로젝트 설명을 적어주세요.",
-    images: [ { src: "", ratio: "3 / 4" }, { src: "", ratio: "3 / 4" }, { src: "", ratio: "3 / 4" } ],
-  },
-  {
-    slug: "project-03",
-    title: "Project Three", subtitle: "Live Visuals",
-    tags: ["Storyboard"],
-    year: "2025", client: "Client C", role: "Motion Design",
-    description: "프로젝트 설명을 적어주세요.",
-    images: [ { src: "", ratio: "16 / 9", full: true }, { src: "", ratio: "16 / 9" }, { src: "", ratio: "16 / 9" } ],
-  },
-  {
-    slug: "project-04",
-    title: "Project Four", subtitle: "Editorial Design",
-    tags: ["Concept Art"],
-    year: "2025", client: "Client D", role: "Book Design",
-    description: "프로젝트 설명을 적어주세요.",
-    images: [ { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" } ],
-  },
-  {
-    slug: "project-05",
-    title: "Project Five", subtitle: "Website",
-    tags: ["Storyboard"],
-    year: "2025", client: "Client E", role: "Web Design",
-    description: "프로젝트 설명을 적어주세요.",
-    images: [ { src: "", ratio: "1 / 1" }, { src: "", ratio: "1 / 1" }, { src: "", ratio: "1 / 1" } ],
-  },
-  {
-    slug: "project-06",
-    title: "Project Six", subtitle: "Character Studies",
-    tags: ["Concept Art"],
-    year: "2024", client: "Personal", role: "Illustration",
-    description: "프로젝트 설명을 적어주세요.",
-    images: [ { src: "", ratio: "2 / 3" }, { src: "", ratio: "2 / 3" }, { src: "", ratio: "2 / 3" } ],
-  },
-  {
-    slug: "project-07",
-    title: "Project Seven", subtitle: "Campaign",
-    tags: ["Storyboard"],
-    year: "2024", client: "Client F", role: "Art Direction",
-    description: "프로젝트 설명을 적어주세요.",
-    images: [ { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" }, { src: "", ratio: "4 / 5" } ],
-  },
-];
+let SITE = {}, CATEGORIES = [], PROJECTS = [];
 
 /* ════════════════════════════════════════════════════════
    아래는 동작 코드입니다 (수정하지 않아도 됩니다)
@@ -705,8 +594,15 @@ window.addEventListener("keydown", e => {
   if (e.key === "ArrowRight") setActive(home.active + 1);
   if (e.key === "ArrowLeft") setActive(home.active - 1);
 });
-PROJECTS.forEach(p => { if (!p.slug) p.slug = slugify(p.title); });
-render();
+fetch("content.json?v=" + Date.now(), { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(d => {
+    SITE = d.site || {}; CATEGORIES = d.categories || []; PROJECTS = d.projects || [];
+    SITE.footer = SITE.footer || { left: "", right: "" };
+    PROJECTS.forEach(p => { p.tags = p.tags || []; p.images = p.images || []; if (!p.slug) p.slug = slugify(p.title); });
+    render();
+  })
+  .catch(() => { $app.innerHTML = "<p style=\"padding:12px\">Content could not be loaded. Please refresh the page.</p>"; });
 </script>
 </body>
 </html>
